@@ -1,0 +1,240 @@
+body {
+	overflow-x: hidden;
+	overflow-y: scroll;
+	font-family: Arial;
+	font-size: 16px;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+tbody,thead,tr,td {
+	border-spacing: 0;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #80437f;
+}
+a:hover {
+	text-decoration: underline;
+	color: #c640c4;
+}
+
+ul,ol {
+	margin: 0 0 0 2em;
+	padding: 0;
+	line-height: 1.5em;
+}
+li+li {
+	margin-top: 0.5em;
+}
+p+p {
+	margin-top: 1em;
+}
+
+.preview_container {
+	position: relative;
+	width: 960px;
+	height: 540px;
+	background: #eeeeee;
+}
+.preview_container:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	border: 1px solid #808080;
+	pointer-events: none;
+}
+
+.preview {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.preview>.fills>rect {
+	stroke: none;
+}
+.preview>.fills>rect:not(.events) {
+	pointer-events: none;
+}
+.preview>.fills>rect.events {
+	cursor: pointer;
+}
+.preview>.outlines>rect {
+	fill: none;
+	stroke-width: 1px;
+	pointer-events: none;
+}
+.preview>.trajectories>path {
+	fill: none;
+	pointer-events: none;
+	stroke-dasharray: 1,2;
+	opacity: 0.375;
+}
+.preview>.trajectories>path.arrow {
+	opacity: 1;
+	stroke-dasharray: none;
+	stroke-width: 2;
+}
+.preview>.fills>.hidden,
+.preview>.outlines>.hidden,
+.preview>.trajectories>.hidden {
+	display: none;
+}
+
+.preview>.fills>.object1 {
+	fill: #ec8376;
+}
+.preview>.fills>.object2 {
+	fill: #76a8ec;
+}
+.preview>.fills>.target {
+	opacity: 0.25;
+}
+.preview>.fills>.collision_start {
+	opacity: 0.25;
+}
+.preview>.fills>.collision_end {
+	opacity: 0;
+}
+
+.preview>.outlines>.object1 {
+	stroke: #ff1e00;
+}
+.preview>.outlines>.object2 {
+	stroke: #006aff;
+}
+.preview>.outlines>.target {
+	opacity: 0.5;
+}
+.preview>.outlines>.collision_start {
+	opacity: 1;
+	stroke-dasharray: 4,4;
+}
+.preview>.outlines>.collision_end {
+	opacity: 1;
+	stroke-dasharray: 4,4;
+}
+.preview>.outlines>.collision_start.white,
+.preview>.outlines>.collision_end.white {
+	stroke: white;
+	stroke-dasharray: none;
+}
+
+.preview>.trajectories>.object1 {
+	stroke: #ff1e00;
+}
+.preview>.trajectories>.object2 {
+	stroke: #006aff;
+}
+.preview>.trajectories>.to_target {
+	opacity: 0.125;
+}
+.preview>.trajectories>.arrow.to_target {
+	opacity: 0.25;
+}
+
+.preview .object1_arrow {
+	fill: #ff1e00;
+	stroke: none;
+	opacity: 1;
+}
+.preview .object2_arrow {
+	fill: #006aff;
+	stroke: none;
+}
+
+.property_table_container {
+}
+.property_table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.property_table tr:first-of-type>td {
+	border-top: none;
+}
+.property_table tr.property_table_label>td {
+	font-weight: bold;
+	padding: 0.25em;
+}
+.property_table td {
+	border: 1px solid #808080;
+}
+.property_table td:first-of-type {
+	padding: 0.25em;
+	width: 10%;
+}
+.property_table td:not(:first-of-type) {
+	width: 15%;
+}
+.property_table_multi {
+	display: table;
+	width: 100%;
+}
+.property_table_multi_row {
+	display: table-row;
+}
+.property_table_multi_cell {
+	display: table-cell;
+	width: 0;
+}
+.property_table_multi_cell:first-of-type,
+.property_table_multi_cell:last-of-type {
+	width: 50%;
+}
+
+.object_modify {
+	box-sizing: border-box;
+	min-width: 100%;
+	max-width: 1px;
+	width: 100%;
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.25em;
+	outline: none;
+	border: none;
+	background-color: transparent;
+	transition: background-color 0.25s ease-in-out 0s;
+}
+.object_modify:focus,
+.object_modify:hover {
+	background-color: #d0d0d0;
+}
+
+.property_label_object1 {
+	font-weight: bold;
+	color: #ff1e00;
+}
+.property_label_object2 {
+	font-weight: bold;
+	color: #006aff;
+}
+.property_table tr.property_table_label>td.property_table_reload_cell {
+	font-weight: normal;
+	border-right: none;
+	border-bottom: none;
+	vertical-align: middle;
+	text-align: center;
+	color: #808080;
+}
+.property_table_reload_link {
+	transition: opacity 0.25s ease-in-out 0s, color 0.25s ease-in-out 0s;
+}
+.property_table_reload_link:not(:hover) {
+	opacity: 0.375;
+}
+
+.description {
+	margin-top: 1em;
+}
+

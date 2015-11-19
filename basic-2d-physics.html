@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Basic 2d Physics</title>
+	<link rel="stylesheet" href="basic-2d-physics.css" />
+	<script src="basic-2d-physics.js"></script>
+</head>
+<body>
+
+
+<div style="width: 960px; margin: 2em auto;">
+
+	<div class="preview_container"><svg svgns="http://www.w3.org/2000/svg" xmlns:data="data:text/plain," class="preview preview_main">
+		<defs>
+			<marker id="object1_arrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+				<path class="object1_arrow" d="M 2,2 L 2,11 L 5,6 L 2,2" />
+			</marker>
+			<marker id="object2_arrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+				<path class="object2_arrow" d="M 2,2 L 2,11 L 5,6 L 2,2" />
+			</marker>
+		</defs>
+		<g class="fills">
+			<rect class="object1 hidden initial events" data:event="move_start" />
+			<rect class="object2 hidden initial events" data:event="move_start" />
+			<rect class="object1 hidden final events" data:event="move_end" />
+			<rect class="object2 hidden final events" data:event="move_end" />
+			<rect class="object1 hidden collision_start" />
+			<rect class="object2 hidden collision_start" />
+			<rect class="object1 hidden collision_end" />
+			<rect class="object2 hidden collision_end" />
+			<rect class="object1 hidden target events" data:event="move_end" />
+			<rect class="object2 hidden target events" data:event="move_end" />
+		</g>
+		<g class="outlines">
+			<rect class="object1 hidden initial" />
+			<rect class="object2 hidden initial" />
+			<rect class="object1 hidden final" />
+			<rect class="object2 hidden final" />
+			<rect class="object1 hidden collision_start white" />
+			<rect class="object1 hidden collision_start" />
+			<rect class="object2 hidden collision_start white" />
+			<rect class="object2 hidden collision_start" />
+			<rect class="object1 hidden collision_end white" />
+			<rect class="object1 hidden collision_end" />
+			<rect class="object2 hidden collision_end white" />
+			<rect class="object2 hidden collision_end" />
+			<rect class="object1 hidden target" />
+			<rect class="object2 hidden target" />
+		</g>
+		<g class="trajectories">
+			<path class="object1 hidden to_collision_start" />
+			<path class="object1 hidden to_collision_start arrow" style="marker-end:url(#object1_arrow);" />
+			<path class="object1 hidden to_collision_end" />
+			<path class="object1 hidden to_collision_end arrow" style="marker-end:url(#object1_arrow);" />
+			<path class="object1 hidden to_final" />
+			<path class="object1 hidden to_final arrow" style="marker-end:url(#object1_arrow);" />
+			<path class="object1 hidden to_target" />
+			<path class="object1 hidden to_target arrow" style="marker-end:url(#object1_arrow);" />
+			<path class="object2 hidden to_collision_start" />
+			<path class="object2 hidden to_collision_start arrow" style="marker-end:url(#object2_arrow);" />
+			<path class="object2 hidden to_collision_end" />
+			<path class="object2 hidden to_collision_end arrow" style="marker-end:url(#object2_arrow);" />
+			<path class="object2 hidden to_final" />
+			<path class="object2 hidden to_final arrow" style="marker-end:url(#object2_arrow);" />
+			<path class="object2 hidden to_target" />
+			<path class="object2 hidden to_target arrow" style="marker-end:url(#object2_arrow);" />
+		</g>
+	</svg></div>
+	<div class="property_table_container"><table class="property_table"><thead>
+		<tr class="property_table_label">
+			<td>Object</td>
+			<td>Weight</td>
+			<td>Weight Transfer</td>
+			<td>Weight Accept</td>
+			<td>Motion Transfer</td>
+			<td>Motion Accept</td>
+		</tr>
+		<tr>
+			<td class="property_label_object1">Red</td>
+			<td><input type="text" class="object_modify" data-target="0,weight" data-range="0," data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="0,weight_transfer" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="0,weight_accept" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="0,motion_transfer" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="0,motion_accept" data-range="0,1" data-update="collision" /></td>
+		</tr>
+		<tr>
+			<td class="property_label_object2">Blue</td>
+			<td><input type="text" class="object_modify" data-target="1,weight" data-range="0," data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="1,weight_transfer" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="1,weight_accept" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="1,motion_transfer" data-range="0,1" data-update="collision" /></td>
+			<td><input type="text" class="object_modify" data-target="1,motion_accept" data-range="0,1" data-update="collision" /></td>
+		</tr>
+		<tr class="property_table_label">
+			<td>Object</td>
+			<td>Width</td>
+			<td>Height</td>
+			<td>Position</td>
+			<td>End Position</td>
+			<td rowspan="3" class="property_table_reload_cell">
+				<a class="property_table_reload_link" href="">Reset</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="property_label_object1">Red</td>
+			<td><input type="text" class="object_modify" data-target="0,width" data-range="0,100" data-update="full" /></td>
+			<td><input type="text" class="object_modify" data-target="0,height" data-range="0,100" data-update="full" /></td>
+			<td><div class="property_table_multi"><div class="property_table_multi_row">
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object1_modify_x1" data-target="0,x" data-range="0,bound_width" data-update="collision" /></div>
+				<div class="property_table_multi_cell">,</div>
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object1_modify_y1" data-target="0,y" data-range="0,bound_height" data-update="collision" /></div>
+			</div></div></td>
+			<td><div class="property_table_multi"><div class="property_table_multi_row">
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object1_modify_x2" data-target="0,speed,x;modify_speed_x" data-range="0,bound_width" data-update="collision" /></div>
+				<div class="property_table_multi_cell">,</div>
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object1_modify_y2" data-target="0,speed,y;modify_speed_y" data-range="0,bound_height" data-update="collision" /></div>
+			</div></div></td>
+		</tr>
+		<tr>
+			<td class="property_label_object2">Blue</td>
+			<td><input type="text" class="object_modify" data-target="1,width" data-range="0,100" data-update="full" /></td>
+			<td><input type="text" class="object_modify" data-target="1,height" data-range="0,100" data-update="full" /></td>
+			<td><div class="property_table_multi"><div class="property_table_multi_row">
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object2_modify_x1" data-target="1,x" data-range="0,bound_width" data-update="collision" /></div>
+				<div class="property_table_multi_cell">,</div>
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object2_modify_y1" data-target="1,y" data-range="0,bound_height" data-update="collision" /></div>
+			</div></div></td>
+			<td><div class="property_table_multi"><div class="property_table_multi_row">
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object2_modify_x2" data-target="1,speed,x;modify_speed_x" data-range="0,bound_width" data-update="collision" /></div>
+				<div class="property_table_multi_cell">,</div>
+				<div class="property_table_multi_cell"><input type="text" class="object_modify object2_modify_y2" data-target="1,speed,y;modify_speed_y" data-range="0,bound_height" data-update="collision" /></div>
+			</div></div></td>
+		</tr>
+	</tbody></table></div>
+
+	<div class="description">
+		<p><ul>
+			<li>
+				<strong>Weight</strong> - How much effect the object will have on the new momentum resulting from the collision
+			</li>
+			<li>
+				<strong>Weight Transfer</strong> - A scalar value to be multiplied by the weight
+			</li>
+			<li>
+				<strong>Weight Accept</strong> - How much weight from the other object will be transferred into the collision
+			</li>
+			<li>
+				<strong>Motion Transfer</strong> - After the collision has ended, how much motion should be transferred to the other object
+			</li>
+			<li>
+				<strong>Motion Accept</strong> - After the collision has ended, how much motion should be kept from the collision
+			</li>
+		</ul></p>
+		<p><ul>
+			<li>
+				The colored boxes indicate the starting and ending positions
+			</li>
+			<li>
+				The light-colored boxes with a solid outline indicate the targeted position
+			</li>
+			<li>
+				The boxes with a dashed outline indicate and light fill indicate where the collision occurs
+			</li>
+			<li>
+				The boxes with a dashed outline indicate and <strong>no</strong> fill indicate where the collision ends
+			</li>
+			<li>
+				The dotted lines and arrows indicate the path and direction of the trajectory
+			</li>
+		</ul></p>
+	</div>
+</div>
+
+
+</body>
+</html>
