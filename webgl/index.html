@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>WebGL</title>
+	<style>
+body {
+	margin: 0;
+	padding: 0;
+	border: none
+}
+.gl_container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+#gl {
+	width: 100%;
+	height: 100%;
+	background: red;
+}
+	</style>
+	<script src="gl-matrix-min.js"></script>
+	<script src="webgl.js"></script>
+</head>
+<body>
+	<video src="test2.webm" style="display: none;" preload="auto" volume="0" autoplay loop>
+		error
+	</video>
+	<div class="gl_container">
+		<canvas id="gl">&lt;canvas&gt; not supported</canvas>
+	</div>
+</body>
+</html>
