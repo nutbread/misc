@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description" content="&#x1F914;!" />
+	<meta name="keywords" content="nutbread,nut,bread" />
+	<meta name="author" content="nutbread" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>&nbsp;</title>
+	<style>
+body {
+	font-family: "Comic Sans MS", arial, sans-serif;
+	font-size: 320px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	white-space: nowrap;
+	line-height: 0;
+	overflow: hidden;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	cursor: default;
+}
+body:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	width: 0;
+	vertical-align: middle;
+}
+div {
+	display: inline-block;
+	whitespace: normal;
+	line-height: normal;
+	vertical-align: middle;
+	text-align: left;
+}
+span {
+	display: inline-block;
+	transform: rotateZ(90deg);
+	animation: 100s linear 0s infinite spin;
+}
+span:after {
+	content: "\01F914";
+}
+@keyframes spin {
+	0% { transform: rotateZ(0deg); }
+	100% { transform: rotateZ(360deg); }
+}
+	</style>
+	<script>
+(function () {
+	"use strict";
+
+	var url_message = "SCROLLING MARQUEE!!";
+	var url_max_length = 200;
+	var url_pos = 0;
+
+	var title_message = "VERY OBNOXIOUS!!";
+	var title_max_length = 100;
+	var title_pos = 0;
+
+	var speed = 25;
+
+	//var colors = [ "\ud83c\udffb", "\ud83c\udffc", "\ud83c\udffd", "\ud83c\udffe", "\ud83c\udfff" ];
+
+	var set_fragment = function (fragment) {
+		window.history.replaceState(null, "", "#!" + fragment);
+	};
+
+	var set_title = (function () {
+		var t = null;
+		return function (title) {
+			if (t || (t = document.querySelector("title"))) {
+				t.textContent = title;
+			}
+		};
+	})();
+
+	var marquee = function (message, max_length, position, blank_char) {
+		var len = message.length, i;
+		for (i = 0; i < position; ++i) { message = blank_char + message; }
+		for (i = message.length; i < max_length; ++i) { message += blank_char; }
+		return message.substr(len, max_length);
+	};
+
+	var animate = function () {
+		var len = url_message.length;
+		url_pos = (url_pos + len + 1) % (url_max_length + len * 2) - len;
+		set_fragment(marquee(url_message, url_max_length, url_pos, "-"));
+
+		var think = "\ud83e\udd14";
+
+		len = title_message.length;
+		title_pos = (title_pos + len + 1) % (title_max_length + len * 2) - len;
+		set_title(think + marquee(title_message, title_max_length, title_pos, "."));
+	};
+
+	window.addEventListener("load", function () {
+		setInterval(animate, speed);
+	}, false);
+})();
+	</script>
+</head>
+<body><div><span></span></div></body>
+</html>
